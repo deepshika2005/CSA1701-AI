@@ -1,0 +1,17 @@
+from itertools import permutations
+def solve_cryptarithmetic(puzzle):
+    letters = set("".join(puzzle))
+    for perm in permutations("0123456789", len(letters)):
+        mapping = dict(zip(letters, perm))
+        if all(int(''.join(mapping[letter] for letter in word)) != 0 and mapping[word[0]] != '0' for word in puzzle) \
+            and sum(int(''.join(mapping[letter] for letter in word)) for word in puzzle[:-1]) == int(''.join(mapping[letter] for letter in puzzle[-1])):
+            return mapping
+    return None
+puzzle = ["SEND", "MORE", "MONEY"]
+solution = solve_cryptarithmetic(puzzle)
+if solution:
+    print("Solution found:")
+    for word in puzzle:
+        print(word, "=", ''.join(solution[letter] for letter in word))
+else:
+    print("No solution found.")
